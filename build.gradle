@@ -1,0 +1,89 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.java'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+//配置全局, 包括root项目和子项目---如果配置了allprojects ，
+//那么subprojects 中就无需配置编码和仓库
+allprojects {
+    group 'com.jane'
+    version '1.0-SNAPSHOT'
+
+
+    //配置编码格式
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    //设置仓库
+    repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/milestone'}
+    }
+
+
+}
+
+//对所有子工程设置统一配置
+subprojects {
+    //添加插件
+    apply plugin: 'java'
+    //基本JDK配置
+    sourceCompatibility = 17
+    targetCompatibility = 17
+
+    compileJava.options.encoding "UTF-8"
+    compileTestJava.options.encoding "UTF-8"
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    group 'com.jane'
+    version '1.0-SNAPSHOT'
+
+    repositories {
+        mavenLocal()
+        maven {url "https://maven.aliyun.com/repository/public"}
+        maven {url "https://maven.aliyun.com/repository/central"}
+        maven {url "https://maven.aliyun.com/repository/google"}
+        maven {url "https://maven.aliyun.com/repository/spring"}
+        mavenCentral()
+
+    }
+    //依赖的配置:设置通用的依赖
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    }
+    test {
+        useJUnitPlatform()
+    }
+}
+//为每个子工程设置依赖
+project("demo-collection"){
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.30'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
