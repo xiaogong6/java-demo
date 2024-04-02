@@ -18,6 +18,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    implementation 'com.google.guava:guava:33.1.0-jre'
 }
 
 tasks.named('test') {
