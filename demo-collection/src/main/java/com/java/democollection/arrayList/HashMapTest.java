@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -25,6 +26,8 @@ public class HashMapTest {
         Stream<String> stringStream = list.parallelStream();
 
         // stringStream.reduce()
+
+        ConcurrentHashMap<Object, Object> concurrentHashMap = new ConcurrentHashMap<>();
     }
 
 }
