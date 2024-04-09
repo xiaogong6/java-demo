@@ -42,7 +42,7 @@ public class SemaphoreThreadExecute {
 
 class MyThread3 implements Runnable {
 
-    private final Logger logger = LoggerFactory.getLogger(MyThread3.class)
+    private final Logger logger = LoggerFactory.getLogger(MyThread3.class);
 
     private final Semaphore semaphore;
 
