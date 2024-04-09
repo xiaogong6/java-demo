@@ -1,16 +1,17 @@
-package com.java.democollection;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+package com.java.democollection.thread;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@SpringBootTest
-class DemoCollectionApplicationTests {
+/**
+ * @Program: demo-java
+ * @Description:
+ * @Author: xiongke
+ * @Create: 2024-04-09
+ */
+public class Sjlgoushi {
 
-    @Test
-    void contextLoads() {
+    public static void main(String[] args) {
         LocalDateTime localDateTime = LocalDateTime.of(1988, 6, 1, 0, 0, 0);
         System.out.println(localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
     }
