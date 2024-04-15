@@ -9,7 +9,7 @@ import java.time.ZoneId;
  * @Author: xiongke
  * @Create: 2024-04-09
  */
-public class Sjlgoushi {
+public class LocalDateTimeTest {
 
     public static void main(String[] args) {
         LocalDateTime localDateTime = LocalDateTime.of(1988, 6, 1, 0, 0, 0);

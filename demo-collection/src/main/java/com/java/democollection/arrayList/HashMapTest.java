@@ -27,7 +27,15 @@ public class HashMapTest {
 
         // stringStream.reduce()
 
+        synchronized (hashMap){
+            System.out.println("111");
+        }
         ConcurrentHashMap<Object, Object> concurrentHashMap = new ConcurrentHashMap<>();
+
+        Object put = concurrentHashMap.put("1", "1");
+        System.out.println("put = " + put);
+        Object put1 = concurrentHashMap.put("1", "2");
+        System.out.println("put1 = " + put1);
     }
 
 }
