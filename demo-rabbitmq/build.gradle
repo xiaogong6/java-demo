@@ -11,15 +11,24 @@ java {
     sourceCompatibility = '21'
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    implementation 'com.google.guava:guava:33.1.0-jre'
+    implementation 'org.springframework.boot:spring-boot-starter-amqp:3.2.3'
 }
 
-tasks.register('prepareKotlinBuildScriptModel') {}
+tasks.named('test') {
+    useJUnitPlatform()
+}
