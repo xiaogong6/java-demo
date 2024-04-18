@@ -21,8 +21,8 @@ public class SyncIncrDemo2 implements Runnable{
         }
     }
     public static void main(String[] args) throws InterruptedException {
-        SyncIncrDemo syncIncrDemo1 = new SyncIncrDemo();
-        SyncIncrDemo syncIncrDemo2 = new SyncIncrDemo();
+        SyncIncrDemo2 syncIncrDemo1 = new SyncIncrDemo2();
+        SyncIncrDemo2 syncIncrDemo2 = new SyncIncrDemo2();
         Thread t1=new Thread(syncIncrDemo1);
         Thread t2=new Thread(syncIncrDemo2);
         t1.start();
