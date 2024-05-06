@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.*;
 
 /**
  * @Program: demo-java
@@ -43,5 +43,11 @@ public class CompletableFutureDemo {
         future.thenAcceptAsync(result -> System.out.println("Event 3 processed: " + result));
         future.complete("Hello, CompletableFuture!");
     }
+
+    @Test
+    public void test2() {
+        Executors.newFixedThreadPool(10);
+    }
+
 
 }

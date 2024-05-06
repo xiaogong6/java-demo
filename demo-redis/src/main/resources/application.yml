@@ -1,0 +1,16 @@
+ip2:
+  47.96.41.135
+
+spring:
+  data:
+    redis:
+      host: ${ip2}
+      port: 6379
+      password: 1225zjzj
+      database: 0
+      lettuce:
+        pool:
+          min-idle: 10
+          max-idle: 100
+          max-active: 100
+          max-wait: 10000
