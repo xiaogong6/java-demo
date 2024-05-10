@@ -2,9 +2,7 @@ package com.java.democollection.arrayList;
 
 import com.google.common.collect.Maps;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
@@ -24,6 +22,10 @@ public class HashMapTest {
         Stream<String> stream = list.stream();
 
         Stream<String> stringStream = list.parallelStream();
+
+        Map<String, String> stringMap = Collections.synchronizedMap(hashMap);
+
+        Hashtable<Object, Object> objectObjectHashtable = new Hashtable<>();
 
         // stringStream.reduce()
 
