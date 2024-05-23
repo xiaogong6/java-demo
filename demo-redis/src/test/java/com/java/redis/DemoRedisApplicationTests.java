@@ -1,19 +1,27 @@
 package com.java.redis;
 
+import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
+import com.java.redis.utils.ThreadPoolUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.util.ObjectUtils;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+@Slf4j
 @SpringBootTest
 class DemoRedisApplicationTests {
 
@@ -25,6 +33,9 @@ class DemoRedisApplicationTests {
 
     @Autowired
     private DefaultRedisScript<Long> generateSerialNumber;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Test
     public void printCode() {
@@ -77,6 +88,70 @@ class DemoRedisApplicationTests {
         }
         return "D" + dateStr + generateNumberStr + random;
 
+    }
+
+    @Test
+    public void test11(){
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        executorService.submit(this::testRedisson);
+
+
+    }
+
+
+    @Test
+    public void testRedisson(){
+        //防止任务并发
+        String redisKey = "xiongke_redisson";
+        RLock lock = redissonClient.getLock(redisKey);
+        try {
+            boolean tryLock = lock.tryLock();
+            if (!tryLock) {
+                System.out.println("任务正在执行中，请稍后再试");
+                return;
+            }
+
+            List<String> list = Arrays.asList("1", "2", "3", "5", "6", "7", "8", "9", "0");
+
+            if (ObjectUtils.isEmpty(list)) {
+                return;
+            }
+
+            List<Future> jobResults = new ArrayList<>();
+
+            //拆分集合
+            List<List<String>> partitionList = ListUtil.splitAvg(list, 2);
+
+            //处理逻辑
+            for (List<String> clearIntegralList : partitionList) {
+                Future jobResult = ThreadPoolUtils.submit(() -> {
+                    for (String outIntegral : clearIntegralList) {
+                        try {
+                            System.out.println("定时清理过期积分任务执行中" + outIntegral);
+                        } catch (Exception e) {
+                            System.out.println("定时清理过期积分任务异常");
+                            String errorMsg = StrUtil.subPre(e.getMessage(), 2000);
+                            System.out.println("定时清理过期积分任务异常" + errorMsg);
+                        }
+                    }
+                });
+                jobResults.add(jobResult);
+            }
+
+            // 阻塞等待
+            for (Future future : jobResults) {
+                future.get();
+            }
+
+            //清空数据
+            list.clear();
+            partitionList.clear();
+        } catch (Exception e) {
+            System.out.println("定时清理过期积分任务异常"+e);
+        } finally {
+            lock.unlock();
+            System.out.println("定时清理过期积分任务执行完毕");
+        }
     }
 
 }
