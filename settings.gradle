@@ -1,2 +1,5 @@
 rootProject.name = 'demo-java'
 include 'demo-collection'
+include 'demo-rabbitmq'
+include 'demo-redis'
+include 'demo-rocketmq'
