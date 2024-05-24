@@ -69,12 +69,12 @@ subprojects {
     }
 }
 //为每个子工程设置依赖
-project("demo-collection"){
-    dependencies {
-        compileOnly 'org.projectlombok:lombok:1.18.30'
-        implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    }
-}
+//project("demo-collection"){
+//    dependencies {
+//        compileOnly 'org.projectlombok:lombok:1.18.30'
+//        implementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+//    }
+//}
 
 repositories {
     mavenCentral()
